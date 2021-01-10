@@ -1,0 +1,6 @@
+worlds:
+  map:
+    source: world
+    map: map
+    scale: 16
+    scaleY: 4

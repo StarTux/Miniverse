@@ -1,0 +1,41 @@
+main: com.cavetale.miniverse.MiniversePlugin
+name: Miniverse
+version: 0.1
+api-version: 1.13
+description: Create a miniature version of the overworld for travel
+author: StarTux
+website: https://cavetale.com
+depend: [GenericEvents]
+softdepend: []
+
+commands:
+
+  miniverse:
+    aliases: []
+    description: Miniverse Command
+    permission: miniverse.miniverse
+    usage: |-
+      /miniverse switch
+      /miniverse info
+      /miniverse init
+      /miniverse load
+      /miniverse fill
+
+  switch:
+    aliases: [sw]
+    description: Switch between miniverse and real world
+    permission: miniverse.switch
+    usage: |-
+      /switch
+
+permissions:
+
+  miniverse.miniverse:
+    description: Use /miniverse
+    default: op
+  miniverse.switch:
+    description: Use /switch
+    default: op
+  miniverse.admin:
+    description: Use admin commands
+    default: op
