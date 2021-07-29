@@ -197,7 +197,7 @@ public final class Miniverse {
                         }
                         Material mat = materialMap.of(block.getType());
                         switch (mat) {
-                            // case GRASS:
+                            //case GRASS:
                             //case SEAGRASS:
                         case TALL_SEAGRASS:
                             //case KELP_PLANT:

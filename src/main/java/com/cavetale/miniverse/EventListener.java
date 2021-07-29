@@ -1,7 +1,7 @@
 package com.cavetale.miniverse;
 
+import com.cavetale.core.event.block.PlayerCanBuildEvent;
 import com.destroystokyo.paper.event.block.BlockDestroyEvent;
-import com.winthier.generic_events.PlayerCanBuildEvent;
 import lombok.RequiredArgsConstructor;
 import org.bukkit.World;
 import org.bukkit.block.Block;
