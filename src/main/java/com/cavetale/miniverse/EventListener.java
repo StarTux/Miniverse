@@ -1,10 +1,11 @@
 package com.cavetale.miniverse;
 
-import com.cavetale.core.event.block.PlayerCanBuildEvent;
+import com.cavetale.core.event.block.PlayerBlockAbilityQuery;
 import com.destroystokyo.paper.event.block.BlockDestroyEvent;
 import lombok.RequiredArgsConstructor;
 import org.bukkit.World;
 import org.bukkit.block.Block;
+import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
@@ -127,10 +128,10 @@ public final class EventListener implements Listener {
     }
 
     @EventHandler(priority = EventPriority.LOWEST)
-    public void onPlayerCanBuild(PlayerCanBuildEvent event) {
-        Miniverse miniverse = plugin.mapWorldOf(event.getBlock().getWorld());
+    public void onPlayerBlockAbility(PlayerBlockAbilityQuery query) {
+        Miniverse miniverse = plugin.mapWorldOf(query.getBlock().getWorld());
         if (miniverse == null) return;
-        event.setCancelled(true);
+        query.setCancelled(true);
     }
 
     String toString(Block block) {
@@ -141,7 +142,7 @@ public final class EventListener implements Listener {
     public void onPlayerToggleSneak(PlayerToggleSneakEvent event) {
         if (!event.isSneaking()) return;
         Player player = event.getPlayer();
-        if (!player.isOnGround()) return;
+        if (!((Entity) player).isOnGround()) return;
         World world = player.getWorld();
         Miniverse miniverse = plugin.miniverseOf(world);
         if (miniverse == null || !miniverse.isMapWorld(world)) return;

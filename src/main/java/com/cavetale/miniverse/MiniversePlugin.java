@@ -2,8 +2,10 @@ package com.cavetale.miniverse;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.function.Consumer;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
+import org.bukkit.Chunk;
 import org.bukkit.Location;
 import org.bukkit.World;
 import org.bukkit.configuration.ConfigurationSection;
@@ -89,7 +91,7 @@ public final class MiniversePlugin extends JavaPlugin {
             player.sendMessage("Can't find miniverse! :(");
             return false;
         }
-        loc.getWorld().getChunkAtAsync(loc, unusedChunk -> {
+        loc.getWorld().getChunkAtAsync(loc, (Consumer<Chunk>) unusedChunk -> {
                 while (loc.getY() > 0 && loc.getBlock().isEmpty()) loc.add(0, -1, 0);
                 while (loc.getY() < 255 && !loc.getBlock().isEmpty()) loc.add(0, 1, 0);
                 if (!player.teleport(loc, TeleportCause.PLUGIN)) {
