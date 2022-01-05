@@ -4,3 +4,4 @@ worlds:
     map: map
     scale: 16
     scaleY: 4
+    offsetY: 64

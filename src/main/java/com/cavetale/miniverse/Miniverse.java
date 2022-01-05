@@ -24,26 +24,27 @@ import org.bukkit.block.data.type.Leaves;
 
 @RequiredArgsConstructor
 public final class Miniverse {
-    final MiniversePlugin plugin;
-    String sourceWorldName = "world";
-    String mapWorldName = "map";
-    Set<Long> processedBlocks = new TreeSet<>();
-    List<Long> blockQueue = new ArrayList<>();
-    MaterialMap materialMap = new MaterialMap();
-    int scaleY = 4;
-    int scaleX = 16;
-    int scaleZ = 16;
-    int ticks = 0;
-    boolean loading;
-    int minX = 0;
-    int maxX = 0;
-    int minZ = 0;
-    int maxZ = 0;
-    FillTask fillTask = null;
+    private final MiniversePlugin plugin;
+    protected String sourceWorldName = "world";
+    protected String mapWorldName = "map";
+    protected Set<Long> processedBlocks = new TreeSet<>();
+    protected List<Long> blockQueue = new ArrayList<>();
+    protected MaterialMap materialMap = new MaterialMap();
+    protected int scaleY = 4;
+    protected int scaleX = 16;
+    protected int scaleZ = 16;
+    protected int offsetY = 64;
+    protected int ticks = 0;
+    protected boolean loading;
+    protected int minX = 0;
+    protected int maxX = 0;
+    protected int minZ = 0;
+    protected int maxZ = 0;
+    protected FillTask fillTask = null;
 
-    static final class FillTask {
-        int x;
-        int z;
+    protected static final class FillTask {
+        protected int x;
+        protected int z;
 
         @Override
         public String toString() {
@@ -51,7 +52,7 @@ public final class Miniverse {
         }
     }
 
-    boolean initialize() {
+    protected boolean initialize() {
         final World sourceWorld = getSourceWorld();
         if (sourceWorld == null) return false;
         final World mapWorld = getMapWorld();
@@ -110,14 +111,14 @@ public final class Miniverse {
         return 1;
     }
 
-    void tick() {
+    protected void tick() {
         if (ticks++ == 0) initialize();
         if (loading) return;
         if (!blockQueue.isEmpty()) tickQueue();
         if (fillTask != null) tickFilling();
     }
 
-    void tickQueue() {
+    protected void tickQueue() {
         final long key = blockQueue.remove(0);
         final int mapX = Util.xFromLong(key);
         final int mapZ = Util.zFromLong(key);
@@ -142,7 +143,7 @@ public final class Miniverse {
             });
     }
 
-    void tickFilling() {
+    protected void tickFilling() {
         if (!processMapPillar(fillTask.x, fillTask.z)) {
             plugin.getLogger().warning("Miniverse filling failed at " + fillTask.x + "," + fillTask.z + ": " + info());
             stopFilling();
@@ -162,13 +163,13 @@ public final class Miniverse {
         }
     }
 
-    boolean processMapPillar(int mapX, int mapZ) {
+    protected boolean processMapPillar(int mapX, int mapZ) {
         World sourceWorld = getSourceWorld();
         if (sourceWorld == null) return false;
         return processMapPillar(sourceWorld, mapX, mapZ);
     }
 
-    boolean processMapPillar(World sourceWorld, int mapX, int mapZ) {
+    protected boolean processMapPillar(World sourceWorld, int mapX, int mapZ) {
         if (mapX < minX || mapX > maxX) return false;
         if (mapZ < minZ || mapZ > maxZ) return false;
         World mapWorld = getMapWorld();
@@ -177,9 +178,11 @@ public final class Miniverse {
         final int az = mapZ * scaleZ;
         final int bx = ax + scaleX - 1;
         final int bz = az + scaleZ - 1;
-        BlockData[] pillar = new BlockData[256];
         Map<Biome, Integer> biomes = new EnumMap<>(Biome.class);
-        for (int ay = 0; ay < 256; ay += scaleY) {
+        final int minY = sourceWorld.getMinHeight();
+        final int maxY = sourceWorld.getMaxHeight();
+        BlockData[] pillar = new BlockData[maxY - minY];
+        for (int ay = minY; ay < maxY; ay += scaleY) {
             Map<Material, Integer> mats = new EnumMap<>(Material.class);
             for (int z = az; z <= bz; z += 1) {
                 for (int x = ax; x <= bx; x += 1) {
@@ -235,22 +238,24 @@ public final class Miniverse {
                 Leaves leaves = (Leaves) blockData;
                 leaves.setPersistent(true);
             }
-            pillar[ay / scaleY] = blockData;
+            pillar[(ay / scaleY) - minY] = blockData;
         }
         Biome biome = biomes.entrySet().stream()
             .sorted((a, b) -> Integer.compare(b.getValue(), a.getValue()))
             .findFirst()
             .map(Map.Entry::getKey)
-            .orElse(Biome.PLAINS);
+            .orElse(Biome.THE_VOID);
         for (int y = 0; y < pillar.length; y += 1) {
-            Block mapBlock = mapWorld.getBlockAt(mapX, y, mapZ);
+            Block mapBlock = mapWorld.getBlockAt(mapX, y + offsetY + minY, mapZ);
             BlockData blockData = pillar[y];
             if (blockData == null) {
                 mapBlock.setType(Material.AIR);
             } else {
                 mapBlock.setBlockData(blockData, false);
             }
-            mapBlock.setBiome(biome);
+            if (mapBlock.getBiome() != biome) {
+                mapBlock.setBiome(biome);
+            }
         }
         return true;
     }
@@ -261,25 +266,25 @@ public final class Miniverse {
             + (fillTask != null ? "/" + fillTask : "");
     }
 
-    void startFilling() {
+    protected void startFilling() {
         fillTask = new FillTask();
         fillTask.x = minX;
         fillTask.z = minZ;
         saveFillTask();
     }
 
-    void stopFilling() {
+    protected void stopFilling() {
         fillTask = null;
         saveFillTask();
     }
 
-    File getFillTaskFile() {
+    protected File getFillTaskFile() {
         World world = getMapWorld();
         if (world == null) return null;
         return new File(world.getWorldFolder(), "miniverse.fill.json");
     }
 
-    void loadFillTask() {
+    protected void loadFillTask() {
         File file = getFillTaskFile();
         if (file == null) {
             fillTask = null;
@@ -288,7 +293,7 @@ public final class Miniverse {
         fillTask = Json.load(file, FillTask.class, () -> null);
     }
 
-    void saveFillTask() {
+    protected void saveFillTask() {
         File file = getFillTaskFile();
         if (file == null) return;
         if (fillTask == null) {
@@ -305,7 +310,7 @@ public final class Miniverse {
             if (target == null) return null;
             return new Location(target,
                                 from.getX() / (double) scaleX,
-                                from.getY() / (double) scaleY,
+                                from.getY() / (double) scaleY + (double) offsetY,
                                 from.getZ() / (double) scaleZ,
                                 from.getYaw(), from.getPitch());
         } else if (worldName.equals(mapWorldName)) {
@@ -313,7 +318,7 @@ public final class Miniverse {
             if (target == null) return null;
             return new Location(target,
                                 from.getX() * (double) scaleX,
-                                from.getY() * (double) scaleY,
+                                from.getY() * (double) scaleY - (double) offsetY,
                                 from.getZ() * (double) scaleZ,
                                 from.getYaw(), from.getPitch());
         }

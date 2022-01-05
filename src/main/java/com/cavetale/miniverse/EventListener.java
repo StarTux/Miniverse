@@ -26,62 +26,77 @@ import org.bukkit.event.player.PlayerToggleSneakEvent;
 
 @RequiredArgsConstructor
 public final class EventListener implements Listener {
-    final MiniversePlugin plugin;
+    private final MiniversePlugin plugin;
+    protected boolean debug = false;
 
     @EventHandler(priority = EventPriority.LOWEST)
     public void onBlockFromTo(BlockFromToEvent event) {
         Miniverse miniverse = plugin.mapWorldOf(event.getBlock().getWorld());
         if (miniverse == null) return;
-        plugin.getLogger().info(event.getEventName() + " " + toString(event.getBlock()));
         event.setCancelled(true);
+        if (debug) {
+            plugin.getLogger().info(event.getEventName() + " " + toString(event.getBlock()));
+        }
     }
 
     @EventHandler(priority = EventPriority.LOWEST)
     public void onBlockFade(BlockFadeEvent event) {
         Miniverse miniverse = plugin.mapWorldOf(event.getBlock().getWorld());
         if (miniverse == null) return;
-        plugin.getLogger().info(event.getEventName() + " " + toString(event.getBlock()));
         event.setCancelled(true);
+        if (debug) {
+            plugin.getLogger().info(event.getEventName() + " " + toString(event.getBlock()));
+        }
     }
 
     @EventHandler(priority = EventPriority.LOWEST)
     public void onBlockGrow(BlockGrowEvent event) {
         Miniverse miniverse = plugin.mapWorldOf(event.getBlock().getWorld());
         if (miniverse == null) return;
-        plugin.getLogger().info(event.getEventName() + " " + toString(event.getBlock()));
         event.setCancelled(true);
+        if (debug) {
+            plugin.getLogger().info(event.getEventName() + " " + toString(event.getBlock()));
+        }
     }
 
     @EventHandler(priority = EventPriority.LOWEST)
     public void onBlockForm(BlockFormEvent event) {
         Miniverse miniverse = plugin.mapWorldOf(event.getBlock().getWorld());
         if (miniverse == null) return;
-        plugin.getLogger().info(event.getEventName() + " " + toString(event.getBlock()));
         event.setCancelled(true);
+        if (debug) {
+            plugin.getLogger().info(event.getEventName() + " " + toString(event.getBlock()));
+        }
     }
 
     @EventHandler(priority = EventPriority.LOWEST)
     public void onBlockSpread(BlockSpreadEvent event) {
         Miniverse miniverse = plugin.mapWorldOf(event.getBlock().getWorld());
         if (miniverse == null) return;
-        plugin.getLogger().info(event.getEventName() + " " + toString(event.getBlock()));
         event.setCancelled(true);
+        if (debug) {
+            plugin.getLogger().info(event.getEventName() + " " + toString(event.getBlock()));
+        }
     }
 
     @EventHandler(priority = EventPriority.LOWEST)
     public void onBlockDestroy(BlockDestroyEvent event) {
         Miniverse miniverse = plugin.mapWorldOf(event.getBlock().getWorld());
         if (miniverse == null) return;
-        plugin.getLogger().info(event.getEventName() + " " + toString(event.getBlock()));
         event.setCancelled(true);
+        if (debug) {
+            plugin.getLogger().info(event.getEventName() + " " + toString(event.getBlock()));
+        }
     }
 
     @EventHandler(priority = EventPriority.LOWEST)
     public void onEntityChangeBlock(EntityChangeBlockEvent event) {
         Miniverse miniverse = plugin.mapWorldOf(event.getBlock().getWorld());
         if (miniverse == null) return;
-        plugin.getLogger().info(event.getEventName() + " " + toString(event.getBlock()));
         event.setCancelled(true);
+        if (debug) {
+            plugin.getLogger().info(event.getEventName() + " " + toString(event.getBlock()));
+        }
     }
 
     @EventHandler(priority = EventPriority.LOWEST)

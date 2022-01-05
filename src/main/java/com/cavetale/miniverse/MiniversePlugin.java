@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.function.Consumer;
 import org.bukkit.Bukkit;
-import org.bukkit.ChatColor;
 import org.bukkit.Chunk;
 import org.bukkit.Location;
 import org.bukkit.World;
@@ -12,6 +11,9 @@ import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.entity.Player;
 import org.bukkit.event.player.PlayerTeleportEvent.TeleportCause;
 import org.bukkit.plugin.java.JavaPlugin;
+import static net.kyori.adventure.text.Component.text;
+import static net.kyori.adventure.text.format.NamedTextColor.*;
+import static net.kyori.adventure.text.format.TextDecoration.*;
 
 public final class MiniversePlugin extends JavaPlugin {
     List<Miniverse> miniverses = new ArrayList<>();
@@ -43,6 +45,7 @@ public final class MiniversePlugin extends JavaPlugin {
             miniverse.scaleX = section.getInt("scale", 16);
             miniverse.scaleZ = miniverse.scaleX;
             miniverse.scaleY = section.getInt("scaleY", 4);
+            miniverse.offsetY = section.getInt("offsetY", 64);
             miniverses.add(miniverse);
             getLogger().info("Miniverse loaded: " + miniverse.info());
         }
@@ -99,9 +102,9 @@ public final class MiniversePlugin extends JavaPlugin {
                 }
             });
         if (miniverse.isMapWorld(player.getWorld())) {
-            player.sendMessage(ChatColor.GREEN + "Switching to map world");
+            player.sendMessage(text("Switching to Miniverse", AQUA, ITALIC));
         } else {
-            player.sendMessage(ChatColor.GREEN + "Switching to source world");
+            player.sendMessage(text("Switching to Original", GREEN, BOLD));
         }
         return true;
     }
