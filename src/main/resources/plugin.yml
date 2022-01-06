@@ -15,8 +15,8 @@ commands:
 
   miniverse:
     aliases: []
-    description: Miniverse Command
-    permission: miniverse.miniverse
+    description: Admin Command
+    permission: miniverse.admin
     usage: |-
       /miniverse switch
       /miniverse info
@@ -33,9 +33,6 @@ commands:
 
 permissions:
 
-  miniverse.miniverse:
-    description: Use /miniverse
-    default: op
   miniverse.switch:
     description: Use /switch
     default: op

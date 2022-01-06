@@ -32,7 +32,6 @@ public final class MiniverseCommand implements CommandExecutor {
         case "info": {
             if (args.length != 0) return false;
             if (player == null) return false;
-            if (!player.hasPermission("miniverse.admin")) return false;
             Miniverse miniverse = plugin.miniverseOf(player.getWorld());
             if (miniverse == null) {
                 sender.sendMessage("Not a miniverse world!");
@@ -44,7 +43,6 @@ public final class MiniverseCommand implements CommandExecutor {
         case "init": {
             if (args.length != 0) return false;
             if (player == null) return false;
-            if (!player.hasPermission("miniverse.admin")) return false;
             Miniverse miniverse = plugin.miniverseOf(player.getWorld());
             if (miniverse == null) {
                 sender.sendMessage("Not a miniverse world!");
@@ -60,7 +58,6 @@ public final class MiniverseCommand implements CommandExecutor {
         case "load": {
             if (args.length != 0) return false;
             if (player == null) return false;
-            if (!player.hasPermission("miniverse.admin")) return false;
             World world = player.getWorld();
             Miniverse miniverse = plugin.sourceWorldOf(world);
             if (miniverse == null) {
@@ -91,7 +88,6 @@ public final class MiniverseCommand implements CommandExecutor {
         case "pillar": {
             if (args.length != 0) return false;
             if (player == null) return false;
-            if (!player.hasPermission("miniverse.admin")) return false;
             World world = player.getWorld();
             Miniverse miniverse = plugin.mapWorldOf(world);
             if (miniverse == null) {
@@ -106,7 +102,6 @@ public final class MiniverseCommand implements CommandExecutor {
         case "fill": {
             if (args.length != 0) return false;
             if (player == null) return false;
-            if (!player.hasPermission("miniverse.admin")) return false;
             Miniverse miniverse = plugin.miniverseOf(player.getWorld());
             if (miniverse == null) {
                 sender.sendMessage("Not a miniverse world!");
@@ -119,7 +114,6 @@ public final class MiniverseCommand implements CommandExecutor {
         case "stop": {
             if (args.length != 0) return false;
             if (player == null) return false;
-            if (!player.hasPermission("miniverse.admin")) return false;
             Miniverse miniverse = plugin.miniverseOf(player.getWorld());
             if (miniverse == null) {
                 sender.sendMessage("Not a miniverse world!");
