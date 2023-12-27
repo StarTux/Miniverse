@@ -14,7 +14,7 @@ public final class MaterialMap {
             replace.put(mat, full != null ? full : mat);
         }
         replace.put(Material.SNOW, Material.SNOW_BLOCK);
-        replace.put(Material.TALL_GRASS, Material.GRASS);
+        replace.put(Material.TALL_GRASS, Material.SHORT_GRASS);
     }
 
     static Material replaceFullBlock(Material mat) {
